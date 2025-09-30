@@ -16,7 +16,7 @@ export function DashboardContent({ user }: DashboardContentProps) {
     queryFn: async () => {
       const response = await fetch('/api/dashboard', {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
+          'Authorization': `Bearer ${typeof window !== 'undefined' ? localStorage.getItem('access_token') : ''}`,
         },
       })
       return response.json()

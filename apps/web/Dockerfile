@@ -15,6 +15,9 @@ RUN pnpm install --no-frozen-lockfile
 # Copy source code
 COPY apps/web ./apps/web
 
+# Install web dependencies specifically
+RUN cd apps/web && pnpm install
+
 # Build the application
 RUN cd apps/web && pnpm build
 
