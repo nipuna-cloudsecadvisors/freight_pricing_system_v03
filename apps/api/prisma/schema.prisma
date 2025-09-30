@@ -152,8 +152,8 @@ model Customer {
   rateRequests RateRequest[]
   bookingRequests BookingRequest[]
   salesActivities SalesActivity[]
-  leads Lead[]
   itineraryItems ItineraryItem[]
+  leads Lead[]
 
   @@map("customers")
 }
@@ -325,6 +325,7 @@ model LineQuote {
   id           String    @id @default(cuid())
   rateRequestId String
   lineId       String
+  equipTypeId  String?
   termsJson    Json
   validTo      DateTime
   selected     Boolean   @default(false)
@@ -332,8 +333,9 @@ model LineQuote {
   updatedAt    DateTime  @updatedAt
 
   // Relations
-  rateRequest RateRequest  @relation(fields: [rateRequestId], references: [id], onDelete: Cascade)
-  line        ShippingLine @relation(fields: [lineId], references: [id])
+  rateRequest RateRequest     @relation(fields: [rateRequestId], references: [id], onDelete: Cascade)
+  line        ShippingLine    @relation(fields: [lineId], references: [id])
+  equipType   EquipmentType?  @relation(fields: [equipTypeId], references: [id])
 
   @@map("line_quotes")
 }
@@ -344,16 +346,18 @@ model BookingRequest {
   customerId   String
   rateSource   String              // predefined, request
   linkId       String              // predefined rate ID or rate request ID
+  rateRequestId String?            // Link to rate request if source is 'request'
   status       BookingRequestStatus @default(PENDING)
   cancelReason String?
   createdAt    DateTime            @default(now())
   updatedAt    DateTime            @updatedAt
 
   // Relations
-  raisedBy  User         @relation("BookingRequestRaisedBy", fields: [raisedById], references: [id])
-  customer  Customer     @relation(fields: [customerId], references: [id])
-  roDocs    RoDocument[]
-  jobs      Job[]
+  raisedBy    User         @relation("BookingRequestRaisedBy", fields: [raisedById], references: [id])
+  customer    Customer     @relation(fields: [customerId], references: [id])
+  rateRequest RateRequest? @relation(fields: [rateRequestId], references: [id])
+  roDocs      RoDocument[]
+  jobs        Job[]
 
   @@map("booking_requests")
 }
@@ -475,6 +479,7 @@ model Lead {
   owner           User            @relation("LeadOwner", fields: [ownerId], references: [id])
   salesActivities SalesActivity[]
   itineraryItems  ItineraryItem[]
+  customers       Customer[]
 
   @@map("leads")
 }
