@@ -10,7 +10,7 @@ COPY package.json pnpm-workspace.yaml ./
 COPY apps/api/package.json ./apps/api/
 
 # Install dependencies
-RUN pnpm install --frozen-lockfile
+RUN pnpm install --no-frozen-lockfile
 
 # Copy source code
 COPY apps/api ./apps/api
