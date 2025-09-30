@@ -1,4 +1,4 @@
-import { IsString, IsBoolean, IsDateString } from 'class-validator';
+import { IsString, IsBoolean, IsDateString, IsOptional } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreatePredefinedRateDto {

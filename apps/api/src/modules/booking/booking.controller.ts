@@ -28,9 +28,9 @@ export class BookingController {
   @Get()
   @ApiOperation({ summary: 'Get booking requests' })
   async getBookingRequests(
+    @CurrentUser() user: any,
     @Query('status') status?: BookingRequestStatus,
     @Query('customerId') customerId?: string,
-    @CurrentUser() user: any,
   ) {
     return this.bookingService.getBookingRequests({
       status,

@@ -29,10 +29,10 @@ export class ItinerariesController {
   @Get()
   @ApiOperation({ summary: 'Get itineraries' })
   async getItineraries(
+    @CurrentUser() user: any,
     @Query('type') type?: ItineraryType,
     @Query('status') status?: ItineraryStatus,
     @Query('weekStart') weekStart?: string,
-    @CurrentUser() user: any,
   ) {
     return this.itinerariesService.getItineraries({
       ownerId: user.sub,

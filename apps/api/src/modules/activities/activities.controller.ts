@@ -25,12 +25,12 @@ export class ActivitiesController {
   @Get()
   @ApiOperation({ summary: 'Get sales activities' })
   async getSalesActivities(
+    @CurrentUser() user: any,
     @Query('customerId') customerId?: string,
     @Query('leadId') leadId?: string,
     @Query('type') type?: SalesActivityType,
     @Query('dateFrom') dateFrom?: string,
     @Query('dateTo') dateTo?: string,
-    @CurrentUser() user: any,
   ) {
     return this.activitiesService.getSalesActivities({
       userId: user.sub,
@@ -45,8 +45,8 @@ export class ActivitiesController {
   @Get('my')
   @ApiOperation({ summary: 'Get my sales activities' })
   async getMyActivities(
-    @Query('limit') limit?: number,
     @CurrentUser() user: any,
+    @Query('limit') limit?: number,
   ) {
     return this.activitiesService.getActivitiesByUser(user.sub, limit);
   }

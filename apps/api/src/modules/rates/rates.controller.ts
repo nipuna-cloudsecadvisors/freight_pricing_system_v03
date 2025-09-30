@@ -69,9 +69,9 @@ export class RatesController {
   @Get('requests')
   @ApiOperation({ summary: 'Get rate requests' })
   async getRateRequests(
+    @CurrentUser() user: any,
     @Query('status') status?: RateRequestStatus,
     @Query('mine') mine?: boolean,
-    @CurrentUser() user: any,
   ) {
     return this.ratesService.getRateRequests({
       status,
