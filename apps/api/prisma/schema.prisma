@@ -97,7 +97,8 @@ model User {
   updatedAt DateTime   @updatedAt
 
   // Relations
-  sbu                Sbu?                    @relation(fields: [sbuId], references: [id])
+  sbu                Sbu?                    @relation("SbuMembers", fields: [sbuId], references: [id])
+  sbuHead            Sbu?                    @relation("SbuHead")
   createdCustomers   Customer[]              @relation("CustomerCreatedBy")
   approvedCustomers  Customer[]              @relation("CustomerApprovedBy")
   rateRequests       RateRequest[]           @relation("RateRequestSalesperson")
@@ -123,8 +124,8 @@ model Sbu {
   updatedAt   DateTime @updatedAt
 
   // Relations
-  headUser User   @relation(fields: [headUserId], references: [id])
-  users    User[]
+  headUser User   @relation("SbuHead", fields: [headUserId], references: [id])
+  users    User[] @relation("SbuMembers")
 
   @@map("sbus")
 }
